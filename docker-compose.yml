@@ -2,14 +2,17 @@ version: "3.8"
 
 services:
   frontend:
-    build: ./frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
     ports:
       - 3000:3000
     working_dir: /frontend
     volumes:
       - ./frontend:/frontend
-      - ./frontend/node_modules:/frontend/node_modules
-    command: pnpm dev
+      - frontend_next:/frontend/.next
+      - frontend_node_modules:/frontend/node_modules
+    command: pnpm start
     tty: true
     depends_on:
       - backend
@@ -19,3 +22,7 @@ services:
       - 9090:9090
     working_dir: /backend
     command: ./backend
+
+volumes:
+  frontend_next:
+  frontend_node_modules:
