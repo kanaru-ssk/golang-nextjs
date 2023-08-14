@@ -6,6 +6,9 @@ services:
     ports:
       - 3000:3000
     working_dir: /frontend
+    volumes:
+      - ./frontend:/frontend
+      - ./frontend/node_modules:/frontend/node_modules
     command: pnpm dev
     tty: true
     depends_on:
@@ -14,3 +17,5 @@ services:
     build: ./backend
     ports:
       - 9090:9090
+    working_dir: /backend
+    command: ./backend
