@@ -5,7 +5,7 @@ export type User = {
 
 export const getUser = async () => {
   try {
-    const res = await fetch("http://backend:9090", { cache: "no-store" });
+    const res = await fetch("http://backend:8080", { cache: "no-store" });
     if (!res.ok) return null;
 
     const data = await res.json();
