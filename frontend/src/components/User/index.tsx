@@ -1,6 +1,6 @@
 import { getUser } from "@/libs/getUser";
 
-export const User = async () => {
+export async function User() {
   const user = await getUser();
 
   if (!user) return null;
@@ -11,4 +11,4 @@ export const User = async () => {
       <li>age : {user.age}</li>
     </ul>
   );
-};
+}

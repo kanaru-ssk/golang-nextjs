@@ -1,0 +1,9 @@
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.prd
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.prd

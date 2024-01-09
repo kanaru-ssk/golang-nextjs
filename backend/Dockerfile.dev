@@ -1,17 +1,12 @@
-FROM golang:1.21-alpine aS biulder
-
+FROM golang:1.21-alpine as builder
 WORKDIR /backend
-
 COPY go.mod go.sum .
-RUN go mod download && go mod verify
-
-COPY *.go .
+RUN go mod download
+COPY . .
 RUN go build
 
-
 FROM alpine
-
 WORKDIR /backend
-
+COPY --from=builder ./backend .
 EXPOSE 8080
 CMD ["./backend"]

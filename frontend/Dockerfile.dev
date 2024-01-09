@@ -1,0 +1,14 @@
+FROM node:20-alpine
+WORKDIR /frontend
+COPY package.json pnpm-lock.yaml .
+RUN yarn global add pnpm
+RUN pnpm i
+COPY next-env.d.ts .
+COPY next.config.js .
+COPY postcss.config.js .
+COPY tailwind.config.ts .
+COPY tsconfig.json .
+COPY public ./public
+COPY src ./src
+
+CMD ["pnpm", "dev"]
