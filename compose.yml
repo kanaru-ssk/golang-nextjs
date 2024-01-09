@@ -1,9 +1,7 @@
 services:
   frontend:
-    working_dir: /frontend
     ports:
       - 3000:3000
   backend:
-    working_dir: /backend
     ports:
       - 8080:8080

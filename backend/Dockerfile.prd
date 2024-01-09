@@ -8,5 +8,5 @@ RUN go build
 FROM alpine
 WORKDIR /backend
 COPY --from=builder ./backend .
-EXPOSE 8080
+
 CMD ["./backend"]
