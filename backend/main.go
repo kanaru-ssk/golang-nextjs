@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	"os"
 
 	_ "github.com/lib/pq"
 )
@@ -18,7 +19,8 @@ type User struct {
 
 func main() {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		db, err := sql.Open("postgres", "postgres://postgres:pass@db:5432/users?sslmode=disable")
+		db, err := sql.Open("postgres", "postgres://postgres:"+os.Getenv("POSTGRES_PASSWORD")+"@db:5432/"+os.Getenv("POSTGRES_DB")+"?sslmode=disable")
+		log.Print("POSTGRES_PASSWORD", os.Getenv("POSTGRES_PASSWORD"))
 		if err != nil {
 			log.Fatal(err)
 		}

@@ -2,19 +2,26 @@ services:
   frontend:
     ports:
       - 3000:3000
+    depends_on:
+      - backend
   backend:
     ports:
       - 8080:8080
     depends_on:
       - db
+    environment:
+      - POSTGRES_PASSWORD
+      - POSTGRES_DB
   db:
     image: postgres:16-alpine
     ports:
       - "5432:5432"
     environment:
-      POSTGRES_PASSWORD: pass
+      - POSTGRES_PASSWORD
+      - POSTGRES_DB
     volumes:
       - pgdata:/var/lib/postgresql/data
+      - ./db/init:/docker-entrypoint-initdb.d
 
 volumes:
   pgdata:
