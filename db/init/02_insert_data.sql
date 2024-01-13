@@ -8,10 +8,10 @@ VALUES
 (
   'peter',
   'peter@example.com',
-  25
+  8
 ),
 (
   'benjamin',
   'benjamin@example.com',
-  26
+  6
 );
