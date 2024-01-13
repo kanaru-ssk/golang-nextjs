@@ -33,7 +33,6 @@ func main() {
 		for rows.Next() {
 			m := User{}
 			rows.Scan(&m.Id, &m.Name, &m.Email, &m.Age)
-			log.Print("test : ", m)
 			users = append(users, m)
 		}
 

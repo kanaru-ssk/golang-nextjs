@@ -1,18 +1,18 @@
 export type User = {
+  id: string;
   name: string;
+  email: string;
   age: number;
 };
 
-export const getUser = async () => {
+export const getUsers = async () => {
   try {
     const res = await fetch("http://backend:8080", { cache: "no-store" });
     if (!res.ok) return null;
 
     const data = await res.json();
 
-    if ("name" in data && "age" in data) return data as User;
-
-    return null;
+    return data as User[];
   } catch {
     return null;
   }

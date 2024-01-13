@@ -1,10 +1,10 @@
-import { User } from "@/components/User";
+import { UserTable } from "@/components/user-table";
 
 export default function Page() {
   return (
     <main className="p-4">
-      <h1>hello</h1>
-      <User />
+      <h1 className="my-2 text-2xl">users</h1>
+      <UserTable />
     </main>
   );
 }
