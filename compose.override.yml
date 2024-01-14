@@ -2,13 +2,12 @@ services:
   frontend:
     build:
       context: ./frontend
-      dockerfile: Dockerfile.dev
+      target: dev
     volumes:
-      - ./frontend/src:/frontend/src
-      - ./frontend/public:/frontend/public
+      - ./frontend:/frontend
   backend:
     build:
       context: ./backend
-      dockerfile: Dockerfile.dev
+      target: dev
     volumes:
       - ./backend:/backend

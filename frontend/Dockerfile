@@ -1,6 +1,12 @@
 FROM node:20-alpine AS base
+WORKDIR /frontend
 
-# Step 1. Rebuild the source code only when needed
+FROM base AS dev
+RUN yarn global add pnpm
+COPY package.json pnpm-lock.yaml .
+RUN pnpm i
+CMD ["pnpm", "dev"]
+
 FROM base AS builder
 WORKDIR /frontend
 RUN yarn global add pnpm
@@ -11,8 +17,7 @@ COPY public ./public
 COPY src ./src
 RUN pnpm build
 
-# Step 2. Production image, copy all the files and run next
-FROM base AS runner
+FROM base AS prd
 WORKDIR /frontend
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
@@ -20,5 +25,4 @@ USER nextjs
 COPY --from=builder /frontend/public ./public
 COPY --from=builder --chown=nextjs:nodejs /frontend/.next/standalone .
 COPY --from=builder --chown=nextjs:nodejs /frontend/.next/static ./.next/static
-
 CMD ["node", "server.js"]
