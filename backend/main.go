@@ -19,7 +19,7 @@ type User struct {
 
 func main() {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		db, err := sql.Open("postgres", "postgres://postgres:"+os.Getenv("POSTGRES_PASSWORD")+"@db:5432/"+os.Getenv("POSTGRES_DB")+"?sslmode=disable")
+		db, err := sql.Open("postgres", "postgres://postgres:"+os.Getenv("POSTGRES_PASSWORD")+"@db:"+os.Getenv("DB_PORT")+"/"+os.Getenv("POSTGRES_DB")+"?sslmode=disable")
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -39,5 +39,5 @@ func main() {
 		json.NewEncoder(w).Encode(users)
 	})
 
-	http.ListenAndServe(":8080", nil)
+	http.ListenAndServe(":"+os.Getenv("BACKEND_PORT"), nil)
 }
