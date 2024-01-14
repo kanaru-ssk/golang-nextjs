@@ -10,6 +10,21 @@ import (
 	_ "github.com/lib/pq"
 )
 
+func main() {
+	env := getEnv()
+
+	db, err := sql.Open("postgres", "postgres://postgres:"+env.postgresPassword+"@db:"+env.dbPort+"/"+env.postgresDb+"?sslmode=disable")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer db.Close()
+
+	s := server{db: db}
+
+	http.HandleFunc("/", s.handler)
+	http.ListenAndServe(":"+env.backendPort, nil)
+}
+
 type user struct {
 	Id    string `json:"id"`
 	Name  string `json:"name"`
@@ -34,21 +49,6 @@ func (s *server) handler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	json.NewEncoder(w).Encode(users)
-}
-
-func main() {
-	env := getEnv()
-
-	db, err := sql.Open("postgres", "postgres://postgres:"+env.postgresPassword+"@db:"+env.dbPort+"/"+env.postgresDb+"?sslmode=disable")
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer db.Close()
-
-	s := server{db: db}
-
-	http.HandleFunc("/", s.handler)
-	http.ListenAndServe(":"+env.backendPort, nil)
 }
 
 type env struct {
