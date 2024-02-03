@@ -1,10 +1,10 @@
 import type { ReactNode } from "react";
-import { getUsers } from "@/libs/get-users";
+import { getUsers } from "../libs/get-users";
 
-export async function UserTable() {
+export async function UsersTable() {
   const users = await getUsers();
 
-  if (!users) return null;
+  if (!users || users.length === 0) return null;
 
   return (
     <table>
@@ -30,18 +30,14 @@ export async function UserTable() {
   );
 }
 
-type ThProps = {
+type ThTdProps = {
   children: ReactNode;
 };
 
-function Th({ children }: ThProps) {
+function Th({ children }: ThTdProps) {
   return <th className="border border-neutral-800 px-4 py-2">{children}</th>;
 }
 
-type TdProps = {
-  children: ReactNode;
-};
-
-function Td({ children }: TdProps) {
+function Td({ children }: ThTdProps) {
   return <td className="border border-neutral-800 px-4 py-2">{children}</td>;
 }

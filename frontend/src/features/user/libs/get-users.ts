@@ -1,9 +1,4 @@
-export type User = {
-  id: string;
-  name: string;
-  email: string;
-  age: number;
-};
+import type { User } from "../types";
 
 export const getUsers = async () => {
   try {
