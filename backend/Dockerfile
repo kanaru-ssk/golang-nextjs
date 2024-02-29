@@ -1,8 +1,8 @@
-FROM golang:1.21-alpine AS base
+FROM golang:1.22-alpine AS base
 WORKDIR /backend
 
 FROM base AS dev
-RUN go install github.com/cosmtrek/air@latest
+RUN go install github.com/cosmtrek/air@v1.51.0
 COPY go.mod go.sum .
 RUN go mod download
 CMD ["air", "-c", ".air.toml"]
