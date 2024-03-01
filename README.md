@@ -4,10 +4,13 @@ Go + Next.js + Docker のサンプルプロジェクト
 
 ## 使用技術
 
-- Go v1.21
-- Node.js v20
-- Next.js v14.0.4
-- Docker
+- Go v1.22
+- gqlgen v0.17.44
+- TypeScript v5.3.3
+- Next.js v14.1.1
+- Apollo Client v3.9.5
+- GraphQL v16.8.1
+- Docker v25.0.3
 
 ## ソースコード clone
 
