@@ -9,11 +9,23 @@ import (
 	"context"
 )
 
+// CreateUser is the resolver for the createUser field.
+func (r *mutationResolver) CreateUser(ctx context.Context, input model.NewUser) (*model.User, error) {
+	var user model.User
+	err := r.DB.
+		QueryRow("INSERT INTO users (name) VALUES ($1) RETURNING id,name;", input.Name).
+		Scan(&user.ID, &user.Name)
+	if err != nil {
+		return nil, err
+	}
+	return &user, nil
+}
+
 // CreateTodo is the resolver for the createTodo field.
 func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewTodo) (*model.Todo, error) {
 	var todo model.Todo
 	err := r.DB.
-		QueryRow("INSERT INTO todos (text,user_id) VALUES ($1,1) RETURNING id,text,done;", input.Text).
+		QueryRow("INSERT INTO todos (text,user_id) VALUES ($1,$2) RETURNING id,text,done;", input.Text, input.UserId).
 		Scan(&todo.ID, &todo.Text, &todo.Done)
 	if err != nil {
 		return nil, err
@@ -21,16 +33,34 @@ func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewTodo) 
 	return &todo, nil
 }
 
+// Users is the resolver for the users field.
+func (r *queryResolver) Users(ctx context.Context) ([]*model.User, error) {
+	rows, err := r.DB.Query("SELECT id,name FROM users;")
+	if err != nil {
+		return nil, err
+	}
+	var users []*model.User
+	for rows.Next() {
+		var user model.User
+		err := rows.Scan(&user.ID, &user.Name)
+		if err != nil {
+			return users, err
+		}
+		users = append(users, &user)
+	}
+	return users, nil
+}
+
 // Todos is the resolver for the todos field.
 func (r *queryResolver) Todos(ctx context.Context) ([]*model.Todo, error) {
-	rows, err := r.DB.Query("SELECT id,text,done FROM todos;")
+	rows, err := r.DB.Query("SELECT id,text,done,user_id FROM todos;")
 	if err != nil {
 		return nil, err
 	}
 	var todos []*model.Todo
 	for rows.Next() {
 		var todo model.Todo
-		err := rows.Scan(&todo.ID, &todo.Text, &todo.Done)
+		err := rows.Scan(&todo.ID, &todo.Text, &todo.Done, &todo.UserId)
 		if err != nil {
 			return todos, err
 		}
@@ -39,11 +69,27 @@ func (r *queryResolver) Todos(ctx context.Context) ([]*model.Todo, error) {
 	return todos, nil
 }
 
+// User is the resolver for the user field.
+func (r *todoResolver) User(ctx context.Context, obj *model.Todo) (*model.User, error) {
+	var user model.User
+	err := r.DB.
+		QueryRow("SELECT id,name FROM users WHERE id = $1 LIMIT 1;", obj.UserId).
+		Scan(&user.ID, &user.Name)
+	if err != nil {
+		return nil, err
+	}
+	return &user, nil
+}
+
 // Mutation returns MutationResolver implementation.
 func (r *Resolver) Mutation() MutationResolver { return &mutationResolver{r} }
 
 // Query returns QueryResolver implementation.
 func (r *Resolver) Query() QueryResolver { return &queryResolver{r} }
 
+// Todo returns TodoResolver implementation.
+func (r *Resolver) Todo() TodoResolver { return &todoResolver{r} }
+
 type mutationResolver struct{ *Resolver }
 type queryResolver struct{ *Resolver }
+type todoResolver struct{ *Resolver }

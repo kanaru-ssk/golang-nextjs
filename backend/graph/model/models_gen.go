@@ -5,8 +5,8 @@ package model
 type Mutation struct {
 }
 
-type NewTodo struct {
-	Text string `json:"text"`
+type NewUser struct {
+	Name string `json:"name"`
 }
 
 type Query struct {
