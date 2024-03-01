@@ -2,20 +2,18 @@ FROM node:20-alpine AS base
 WORKDIR /frontend
 
 FROM base AS dev
-RUN yarn global add pnpm
-COPY package.json pnpm-lock.yaml .
-RUN pnpm i
-CMD ["pnpm", "dev"]
+COPY package.json package-lock.json .
+RUN npm ci
+CMD ["npm", "run", "dev"]
 
 FROM base AS builder
 WORKDIR /frontend
-RUN yarn global add pnpm
-COPY package.json pnpm-lock.yaml .
-RUN pnpm i
+COPY package.json package-lock.json .
+RUN npm ci
 COPY next-env.d.ts next.config.js postcss.config.js tailwind.config.ts tsconfig.json .
 COPY public ./public
 COPY src ./src
-RUN pnpm build
+RUN npm run build
 
 FROM base AS prd
 WORKDIR /frontend
