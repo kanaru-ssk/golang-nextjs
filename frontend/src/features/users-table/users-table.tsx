@@ -39,9 +39,17 @@ type ThTdProps = {
 };
 
 function Th({ children }: ThTdProps) {
-  return <th className="border border-neutral-800 px-4 py-2">{children}</th>;
+  return (
+    <th className="min-w-48 border-2 border-neutral-400 px-4 py-2">
+      {children}
+    </th>
+  );
 }
 
 function Td({ children }: ThTdProps) {
-  return <td className="border border-neutral-800 px-4 py-2">{children}</td>;
+  return (
+    <td className="min-w-40 border-2 border-neutral-400 px-4 py-2">
+      {children}
+    </td>
+  );
 }
