@@ -1,15 +1,15 @@
-import { getClient } from "@/libs/apollo-client";
-import { gql } from "@apollo/client";
 import type { ReactNode } from "react";
+import { gql } from "@/__generated__";
+import { getClient } from "@/libs/apollo-client";
 
-const query = gql`
+const query = gql(`
   query findUsers {
     users {
       id
       name
     }
   }
-`;
+`);
 
 export async function UsersTable() {
   const { data } = await getClient().query({ query });
@@ -23,7 +23,7 @@ export async function UsersTable() {
         </tr>
       </thead>
       <tbody>
-        {data.users.map((user: any) => (
+        {data.users.map((user) => (
           <tr key={user.id}>
             <Td>{user.id}</Td>
             <Td>{user.name}</Td>
