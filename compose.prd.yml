@@ -1,3 +1,5 @@
+# 本番環境用の設定
+
 services:
   frontend:
     build:
