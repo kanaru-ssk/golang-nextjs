@@ -1,5 +1,4 @@
-import { AddUserForm } from "@/features/add-user-form";
-import { UsersTable } from "@/features/users-table";
+import { AddUserForm, UsersTable } from "@/features/user";
 
 export default function Page() {
   return (
