@@ -47,3 +47,21 @@ docker compose -f compose.yml -f compose.prd.yml build
 ```sh
 docker compose -f compose.yml -f compose.prd.yml up -d
 ```
+
+## GraphQL スキーマの更新手順
+
+### スキーマファイルを編集
+
+`backend/graph/schema.graphqls`を編集
+
+### backend のコードを自動生成
+
+```sh
+docker compose run backend go generate ./...
+```
+
+### frontend のコードを自動生成
+
+```sh
+docker compose run frontend npm run generate
+```
