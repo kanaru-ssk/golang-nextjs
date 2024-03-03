@@ -1,7 +1,7 @@
 import "@/styles/globals.css";
 import type { ReactNode } from "react";
 import type { Metadata } from "next";
-import { UserContextProvider } from "@/features/user";
+import { UsersProvider } from "@/features/user";
 
 export const metadata: Metadata = {
   title: "golang-nextjs",
@@ -16,7 +16,7 @@ export default function RootLayout({ children }: Props) {
   return (
     <html lang="en">
       <body>
-        <UserContextProvider>{children}</UserContextProvider>
+        <UsersProvider>{children}</UsersProvider>
       </body>
     </html>
   );
