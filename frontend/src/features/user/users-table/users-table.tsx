@@ -1,7 +1,7 @@
 "use client";
 
 import { useContext, type ReactNode } from "react";
-import { UsersContext } from "../user-context/users-context";
+import { UsersContext } from "../users-context/users-context";
 
 export function UsersTable() {
   const { users } = useContext(UsersContext);
