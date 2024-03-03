@@ -5,15 +5,6 @@ import { gql } from "@/__generated__";
 import { getClient } from "@/libs/apollo-client";
 import { User } from "@/__generated__/graphql";
 
-const mutation = gql(`
-  mutation createUser($input: NewUser!) {
-    createUser(input: $input) {
-      id
-      name
-    }
-  }
-`);
-
 const FormSchema = z.object({
   name: z.string().trim().min(1).max(255),
 });
@@ -58,3 +49,12 @@ export async function addUserAction(
     },
   };
 }
+
+const mutation = gql(`
+  mutation createUser($input: NewUser!) {
+    createUser(input: $input) {
+      id
+      name
+    }
+  }
+`);
