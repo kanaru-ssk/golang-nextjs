@@ -15,7 +15,7 @@ type UsersContextProviderProps = {
   children: ReactNode;
 };
 
-export function UserContextProvider({
+export function UsersContextProvider({
   usersData,
   children,
 }: UsersContextProviderProps) {

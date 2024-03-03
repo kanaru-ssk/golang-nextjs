@@ -1,29 +1,31 @@
 "use server";
 
 import { gql } from "@/__generated__";
-import { User } from "@/__generated__/graphql";
+import { Todo } from "@/__generated__/graphql";
 import { getClient } from "@/libs/apollo-client";
 import { z } from "zod";
 
 const FormSchema = z.object({
-  name: z.string().trim().min(1).max(255),
+  text: z.string().trim().min(1).max(255),
+  userId: z.preprocess(Number, z.number().int().positive()),
 });
 
 export type State = {
   result?: {
-    user?: User;
+    todo?: Todo;
   };
   errors?: {
-    name?: string[];
+    text?: string[];
   };
 };
 
-export async function addUserAction(
+export async function addTodoAction(
   _: State,
   formData: FormData,
 ): Promise<State> {
   const validatedFields = FormSchema.safeParse({
-    name: formData.get("name"),
+    text: formData.get("text"),
+    userId: formData.get("userId"),
   });
 
   if (!validatedFields.success) {
@@ -34,21 +36,27 @@ export async function addUserAction(
 
   const { data } = await getClient().mutate({
     mutation,
-    variables: { input: { name: validatedFields.data.name } },
+    variables: {
+      input: {
+        text: validatedFields.data.text,
+        userId: validatedFields.data.userId,
+      },
+    },
   });
 
   return {
     result: {
-      user: data?.createUser,
+      todo: data?.createTodo,
     },
   };
 }
 
 const mutation = gql(`
-  mutation createUser($input: NewUser!) {
-    createUser(input: $input) {
+  mutation createTodo($input: NewTodo!) {
+    createTodo(input: $input) {
       id
-      name
+      text
+      done
     }
   }
 `);

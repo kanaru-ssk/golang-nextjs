@@ -1,7 +1,7 @@
 import { fetchUserDetail } from "./fetch-user-detail";
 
 type Props = {
-  userId: string;
+  userId: number;
 };
 
 export async function UserDetail({ userId }: Props) {
