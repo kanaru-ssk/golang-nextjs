@@ -33,6 +33,18 @@ func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewTodo) 
 	return &todo, nil
 }
 
+// User is the resolver for the user field.
+func (r *queryResolver) User(ctx context.Context, input string) (*model.User, error) {
+	var user model.User
+	err := r.DB.
+		QueryRow("SELECT id,name FROM users WHERE id = $1 LIMIT 1;", input).
+		Scan(&user.ID, &user.Name)
+	if err != nil {
+		return nil, err
+	}
+	return &user, nil
+}
+
 // Users is the resolver for the users field.
 func (r *queryResolver) Users(ctx context.Context) ([]*model.User, error) {
 	rows, err := r.DB.Query("SELECT id,name FROM users;")

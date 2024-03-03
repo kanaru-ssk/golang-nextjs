@@ -37,6 +37,7 @@ func getEnvs() (string, string, string, string) {
 	dbName := os.Getenv("POSTGRES_DB")
 	dbPass := os.Getenv("POSTGRES_PASSWORD")
 	dbPort := os.Getenv("DB_PORT")
+	log.Printf(dbPass)
 	if port == "" || dbName == "" || dbPass == "" || dbPort == "" {
 		log.Fatal("environment variable not found")
 	}

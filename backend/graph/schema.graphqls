@@ -12,6 +12,7 @@ type Todo {
 }
 
 type Query {
+  user(input: ID!): User!
   users: [User!]!
   todos: [Todo!]!
 }
