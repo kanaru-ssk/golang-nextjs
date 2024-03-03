@@ -7,10 +7,11 @@ package graph
 import (
 	"backend/graph/model"
 	"context"
+	"fmt"
 )
 
 // CreateUser is the resolver for the createUser field.
-func (r *mutationResolver) CreateUser(ctx context.Context, input model.NewUser) (*model.User, error) {
+func (r *mutationResolver) CreateUser(ctx context.Context, input model.UserInput) (*model.User, error) {
 	var user model.User
 	err := r.DB.
 		QueryRow("INSERT INTO users (name) VALUES ($1) RETURNING id,name;", input.Name).
@@ -21,16 +22,70 @@ func (r *mutationResolver) CreateUser(ctx context.Context, input model.NewUser) 
 	return &user, nil
 }
 
+// UpdateUser is the resolver for the updateUser field.
+func (r *mutationResolver) UpdateUser(ctx context.Context, id int, input model.UserInput) (*model.User, error) {
+	var user model.User
+	err := r.DB.
+		QueryRow("UPDATE users SET name=$1 WHERE id=$2 RETURNING id,name;", input.Name, id).
+		Scan(&user.ID, &user.Name)
+	if err != nil {
+		return nil, err
+	}
+	return &user, nil
+}
+
+// DeleteUser is the resolver for the deleteUser field.
+func (r *mutationResolver) DeleteUser(ctx context.Context, id int) (int, error) {
+	_, err := r.DB.Exec("DELETE FROM users WHERE id=$1;", id)
+	if err != nil {
+		return 0, err
+	}
+	return id, nil
+}
+
 // CreateTodo is the resolver for the createTodo field.
-func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewTodo) (*model.Todo, error) {
+func (r *mutationResolver) CreateTodo(ctx context.Context, input model.CreateTodoInput) (*model.Todo, error) {
 	var todo model.Todo
 	err := r.DB.
-		QueryRow("INSERT INTO todos (text,user_id) VALUES ($1,$2) RETURNING id,text,done;", input.Text, input.UserID).
-		Scan(&todo.ID, &todo.Text, &todo.Done)
+		QueryRow("INSERT INTO todos (text,user_id) VALUES ($1,$2) RETURNING id,text,done,user_id;", input.Text, input.UserID).
+		Scan(&todo.ID, &todo.Text, &todo.Done, &todo.UserID)
 	if err != nil {
 		return nil, err
 	}
 	return &todo, nil
+}
+
+// UpdateTodo is the resolver for the updateTodo field.
+func (r *mutationResolver) UpdateTodo(ctx context.Context, id int, input model.UpdateTodoInput) (*model.Todo, error) {
+	query := ""
+	if input.Text != nil {
+		query += fmt.Sprintf("text='%s'", *input.Text)
+	}
+	if input.Done != nil {
+		query += fmt.Sprintf(",done='%t'", *input.Done)
+	}
+	fmt.Println(query)
+	if query == "" {
+		return nil, fmt.Errorf("no field to update")
+	}
+	query = fmt.Sprintf("UPDATE todos SET %s WHERE id=$1 RETURNING id,text,done,user_id;", query)
+	var todo model.Todo
+	err := r.DB.
+		QueryRow(query, id).
+		Scan(&todo.ID, &todo.Text, &todo.Done, &todo.UserID)
+	if err != nil {
+		return nil, err
+	}
+	return &todo, nil
+}
+
+// DeleteTodo is the resolver for the deleteTodo field.
+func (r *mutationResolver) DeleteTodo(ctx context.Context, id int) (int, error) {
+	_, err := r.DB.Exec("DELETE FROM todos WHERE id=$1;", id)
+	if err != nil {
+		return 0, err
+	}
+	return id, nil
 }
 
 // User is the resolver for the user field.

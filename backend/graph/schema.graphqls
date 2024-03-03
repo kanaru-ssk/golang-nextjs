@@ -17,16 +17,25 @@ type Query {
   todos(input: Int!): [Todo!]!
 }
 
-input NewUser {
+input UserInput {
   name: String!
 }
 
-input NewTodo {
+input CreateTodoInput {
   text: String!
   userId: Int!
 }
 
+input UpdateTodoInput {
+  text: String
+  done: Boolean
+}
+
 type Mutation {
-  createUser(input: NewUser!): User!
-  createTodo(input: NewTodo!): Todo!
+  createUser(input: UserInput!): User!
+  updateUser(id: Int!, input: UserInput!): User!
+  deleteUser(id: Int!): Int!
+  createTodo(input: CreateTodoInput!): Todo!
+  updateTodo(id: Int!, input: UpdateTodoInput!): Todo!
+  deleteTodo(id: Int!): Int!
 }

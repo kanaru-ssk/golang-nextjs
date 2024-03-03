@@ -2,16 +2,12 @@
 
 package model
 
-type Mutation struct {
-}
-
-type NewTodo struct {
+type CreateTodoInput struct {
 	Text   string `json:"text"`
 	UserID int    `json:"userId"`
 }
 
-type NewUser struct {
-	Name string `json:"name"`
+type Mutation struct {
 }
 
 type Query struct {
@@ -25,7 +21,16 @@ type Todo struct {
 	User   *User   `json:"user,omitempty"`
 }
 
+type UpdateTodoInput struct {
+	Text *string `json:"text,omitempty"`
+	Done *bool   `json:"done,omitempty"`
+}
+
 type User struct {
 	ID   int     `json:"id"`
 	Name *string `json:"name,omitempty"`
+}
+
+type UserInput struct {
+	Name string `json:"name"`
 }
