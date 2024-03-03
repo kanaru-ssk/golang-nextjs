@@ -34,10 +34,10 @@ func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewTodo) 
 }
 
 // User is the resolver for the user field.
-func (r *queryResolver) User(ctx context.Context, input string) (*model.User, error) {
+func (r *queryResolver) User(ctx context.Context, input model.UserID) (*model.User, error) {
 	var user model.User
 	err := r.DB.
-		QueryRow("SELECT id,name FROM users WHERE id = $1 LIMIT 1;", input).
+		QueryRow("SELECT id,name FROM users WHERE id = $1 LIMIT 1;", input.UserId).
 		Scan(&user.ID, &user.Name)
 	if err != nil {
 		return nil, err
@@ -64,8 +64,8 @@ func (r *queryResolver) Users(ctx context.Context) ([]*model.User, error) {
 }
 
 // Todos is the resolver for the todos field.
-func (r *queryResolver) Todos(ctx context.Context) ([]*model.Todo, error) {
-	rows, err := r.DB.Query("SELECT id,text,done,user_id FROM todos;")
+func (r *queryResolver) Todos(ctx context.Context, input model.UserID) ([]*model.Todo, error) {
+	rows, err := r.DB.Query("SELECT id,text,done,user_id FROM todos WHERE user_id = $1;", input.UserId)
 	if err != nil {
 		return nil, err
 	}

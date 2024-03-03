@@ -13,6 +13,10 @@ type User struct {
 	Name string `json:"name"`
 }
 
+type UserID struct {
+	UserId int `json:"userId"`
+}
+
 type NewTodo struct {
 	Text   string `json:"text"`
 	UserId int    `json:"userId"`

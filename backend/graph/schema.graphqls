@@ -11,10 +11,14 @@ type Todo {
   user: User!
 }
 
+input UserID {
+  userId: ID!
+}
+
 type Query {
-  user(input: ID!): User!
+  user(input: UserID!): User!
   users: [User!]!
-  todos: [Todo!]!
+  todos(input: UserID!): [Todo!]!
 }
 
 input NewUser {
