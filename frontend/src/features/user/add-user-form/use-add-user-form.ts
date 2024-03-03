@@ -15,7 +15,7 @@ export function useAddUserForm() {
     ) {
       setUsers([...users, state.result.user]);
     }
-  }, [state]);
+  }, [users, setUsers, state]);
 
   return {
     errors: state.errors,
