@@ -1,24 +1,20 @@
 type User {
-  id: ID!
+  id: Int!
   name: String!
 }
 
 type Todo {
-  id: ID!
+  id: Int!
   text: String!
   done: Boolean!
-  userId: ID!
+  userId: Int!
   user: User!
 }
 
-input UserID {
-  userId: ID!
-}
-
 type Query {
-  user(input: UserID!): User!
+  user(input: Int!): User!
   users: [User!]!
-  todos(input: UserID!): [Todo!]!
+  todos(input: Int!): [Todo!]!
 }
 
 input NewUser {
@@ -27,7 +23,7 @@ input NewUser {
 
 input NewTodo {
   text: String!
-  userId: ID!
+  userId: Int!
 }
 
 type Mutation {

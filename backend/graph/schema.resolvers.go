@@ -25,7 +25,7 @@ func (r *mutationResolver) CreateUser(ctx context.Context, input model.NewUser) 
 func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewTodo) (*model.Todo, error) {
 	var todo model.Todo
 	err := r.DB.
-		QueryRow("INSERT INTO todos (text,user_id) VALUES ($1,$2) RETURNING id,text,done;", input.Text, input.UserId).
+		QueryRow("INSERT INTO todos (text,user_id) VALUES ($1,$2) RETURNING id,text,done;", input.Text, input.UserID).
 		Scan(&todo.ID, &todo.Text, &todo.Done)
 	if err != nil {
 		return nil, err
@@ -34,10 +34,10 @@ func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewTodo) 
 }
 
 // User is the resolver for the user field.
-func (r *queryResolver) User(ctx context.Context, input model.UserID) (*model.User, error) {
+func (r *queryResolver) User(ctx context.Context, input int) (*model.User, error) {
 	var user model.User
 	err := r.DB.
-		QueryRow("SELECT id,name FROM users WHERE id = $1 LIMIT 1;", input.UserId).
+		QueryRow("SELECT id,name FROM users WHERE id = $1 LIMIT 1;", input).
 		Scan(&user.ID, &user.Name)
 	if err != nil {
 		return nil, err
@@ -64,15 +64,15 @@ func (r *queryResolver) Users(ctx context.Context) ([]*model.User, error) {
 }
 
 // Todos is the resolver for the todos field.
-func (r *queryResolver) Todos(ctx context.Context, input model.UserID) ([]*model.Todo, error) {
-	rows, err := r.DB.Query("SELECT id,text,done,user_id FROM todos WHERE user_id = $1;", input.UserId)
+func (r *queryResolver) Todos(ctx context.Context, input int) ([]*model.Todo, error) {
+	rows, err := r.DB.Query("SELECT id,text,done,user_id FROM todos WHERE user_id = $1;", input)
 	if err != nil {
 		return nil, err
 	}
 	var todos []*model.Todo
 	for rows.Next() {
 		var todo model.Todo
-		err := rows.Scan(&todo.ID, &todo.Text, &todo.Done, &todo.UserId)
+		err := rows.Scan(&todo.ID, &todo.Text, &todo.Done, &todo.UserID)
 		if err != nil {
 			return todos, err
 		}
@@ -85,7 +85,7 @@ func (r *queryResolver) Todos(ctx context.Context, input model.UserID) ([]*model
 func (r *todoResolver) User(ctx context.Context, obj *model.Todo) (*model.User, error) {
 	var user model.User
 	err := r.DB.
-		QueryRow("SELECT id,name FROM users WHERE id = $1 LIMIT 1;", obj.UserId).
+		QueryRow("SELECT id,name FROM users WHERE id = $1 LIMIT 1;", obj.UserID).
 		Scan(&user.ID, &user.Name)
 	if err != nil {
 		return nil, err
