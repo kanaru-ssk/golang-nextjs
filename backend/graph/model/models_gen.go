@@ -18,14 +18,14 @@ type Query struct {
 }
 
 type Todo struct {
-	ID     int    `json:"id"`
-	Text   string `json:"text"`
-	Done   bool   `json:"done"`
-	UserID int    `json:"userId"`
-	User   *User  `json:"user"`
+	ID     int     `json:"id"`
+	Text   *string `json:"text,omitempty"`
+	Done   *bool   `json:"done,omitempty"`
+	UserID *int    `json:"userId,omitempty"`
+	User   *User   `json:"user,omitempty"`
 }
 
 type User struct {
-	ID   int    `json:"id"`
-	Name string `json:"name"`
+	ID   int     `json:"id"`
+	Name *string `json:"name,omitempty"`
 }
