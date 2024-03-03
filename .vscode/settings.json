@@ -5,5 +5,5 @@
     "source.organizeImports": "explicit"
   },
   "eslint.workingDirectories": ["frontend"],
-  "cSpell.words": ["nextjs", "todos"]
+  "cSpell.words": ["codegen", "nextjs", "todos"]
 }
