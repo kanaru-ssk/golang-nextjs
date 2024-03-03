@@ -9,7 +9,7 @@
     "start": "next start",
     "lint": "next lint --no-cache",
     "format": "prettier --write . && next lint --fix .",
-    "grp:gen": "graphql-codegen"
+    "generate": "graphql-codegen"
   },
   "dependencies": {
     "@apollo/client": "^3.9.0-rc.1",
