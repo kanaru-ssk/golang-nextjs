@@ -1,9 +1,9 @@
 "use server";
 
-import { z } from "zod";
 import { gql } from "@/__generated__";
-import { getClient } from "@/libs/apollo-client";
 import { User } from "@/__generated__/graphql";
+import { getClient } from "@/libs/apollo-client";
+import { z } from "zod";
 
 const FormSchema = z.object({
   name: z.string().trim().min(1).max(255),
@@ -19,7 +19,7 @@ export type State = {
 };
 
 export async function addUserAction(
-  prevState: State,
+  _: State,
   formData: FormData,
 ): Promise<State> {
   const validatedFields = FormSchema.safeParse({

@@ -1,7 +1,7 @@
 "use client";
 
 import { User } from "@/__generated__/graphql";
-import { useState, createContext, type ReactNode } from "react";
+import { createContext, useState, type ReactNode } from "react";
 
 type ContextValue = {
   users: User[];

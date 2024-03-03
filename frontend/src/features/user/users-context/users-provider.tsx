@@ -1,9 +1,9 @@
 "use server";
 
+import type { ReactNode } from "react";
+import { UserContextProvider } from "./users-context";
 import { gql } from "@/__generated__";
 import { getClient } from "@/libs/apollo-client";
-import { UserContextProvider } from "./users-context";
-import type { ReactNode } from "react";
 
 type Props = {
   children: ReactNode;

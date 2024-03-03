@@ -2,12 +2,13 @@
   "name": "frontend",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "format": "prettier --write .",
+    "lint": "next lint --no-cache",
+    "format": "prettier --write . && next lint --fix .",
     "grp:gen": "graphql-codegen"
   },
   "dependencies": {
