@@ -8,7 +8,7 @@ export async function fetchUserDetail(userId: number) {
   const { data, error } = await getClient().query({
     query,
     variables: {
-      input: {id: userId},
+      input: { id: userId },
     },
   });
   if (!data || error) return notFound();

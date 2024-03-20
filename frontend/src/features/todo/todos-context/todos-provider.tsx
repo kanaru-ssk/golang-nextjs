@@ -14,7 +14,7 @@ export async function TodosProvider({ userId, children }: Props) {
   const { data } = await getClient().query({
     query,
     variables: {
-      input: {userId},
+      input: { userId },
     },
   });
 
