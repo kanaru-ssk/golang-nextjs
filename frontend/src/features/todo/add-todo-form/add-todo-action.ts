@@ -52,7 +52,7 @@ export async function addTodoAction(
 }
 
 const mutation = gql(`
-  mutation createTodo($input: NewTodo!) {
+  mutation createTodo($input: CreateTodoInput!) {
     createTodo(input: $input) {
       id
       text

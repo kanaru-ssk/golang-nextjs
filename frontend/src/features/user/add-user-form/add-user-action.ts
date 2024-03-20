@@ -45,7 +45,7 @@ export async function addUserAction(
 }
 
 const mutation = gql(`
-  mutation createUser($input: NewUser!) {
+  mutation createUser($input: UserInput!) {
     createUser(input: $input) {
       id
       name
