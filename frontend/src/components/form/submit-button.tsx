@@ -1,7 +1,7 @@
 "use client";
 
+import { Button, Spinner, type ButtonProps } from "@/components/elements";
 import { useFormStatus } from "react-dom";
-import { Button, type ButtonProps, Spinner } from "@/components/elements";
 
 type Props = Omit<ButtonProps, "type">;
 
