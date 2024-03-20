@@ -14,9 +14,10 @@ import (
 )
 
 func main() {
-	port, dbName, dbPass, dbPort := getEnvs()
+	port, dbName, dbUser, dbPass, dbPort := getEnvs()
 
-	db, err := sql.Open("postgres", "postgres://postgres:"+dbPass+"@db:"+dbPort+"/"+dbName+"?sslmode=disable")
+	log.Println(port, dbName, dbUser, dbPass, dbPort)
+	db, err := sql.Open("postgres", "postgres://"+dbUser+":"+dbPass+"@db:"+dbPort+"/"+dbName+"?sslmode=disable")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -32,15 +33,15 @@ func main() {
 	log.Fatal(http.ListenAndServe(":"+port, nil))
 }
 
-func getEnvs() (string, string, string, string) {
+func getEnvs() (string, string, string, string, string) {
 	port := os.Getenv("BACKEND_PORT")
 	dbName := os.Getenv("POSTGRES_DB")
+	dbUser := os.Getenv("POSTGRES_USER")
 	dbPass := os.Getenv("POSTGRES_PASSWORD")
 	dbPort := os.Getenv("DB_PORT")
-	log.Printf(dbPass)
 	if port == "" || dbName == "" || dbPass == "" || dbPort == "" {
 		log.Fatal("environment variable not found")
 	}
 
-	return port, dbName, dbPass, dbPort
+	return port, dbName, dbUser, dbPass, dbPort
 }
