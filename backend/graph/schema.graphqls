@@ -1,3 +1,19 @@
+type Query {
+  user(input: UserInput!): User!
+  users: [User!]!
+  todos(input: TodosInput!): [Todo!]!
+}
+
+type Mutation {
+  createUser(input: CreateUserInput!): User!
+  updateUserName(input: UpdateUserNameInput!): User!
+  deleteUser(input: DeleteUserInput!): Int!
+  createTodo(input: CreateTodoInput!): Todo!
+  updateTodoText(input: UpdateTodoTextInput!): Todo!
+  updateTodoDone(input: UpdateTodoDoneInput!): Todo!
+  deleteTodo(input: DeleteTodoInput!): Int!
+}
+
 type User {
   id: Int!
   name: String
@@ -11,14 +27,25 @@ type Todo {
   user: User
 }
 
-type Query {
-  user(input: Int!): User!
-  users: [User!]!
-  todos(input: Int!): [Todo!]!
+input UserInput {
+  id: Int!
 }
 
-input UserInput {
+input TodosInput{
+  userId: Int!
+}
+
+input CreateUserInput {
   name: String!
+}
+
+input UpdateUserNameInput {
+  id: Int!
+  name: String!
+}
+
+input DeleteUserInput {
+  id: Int!
 }
 
 input CreateTodoInput {
@@ -26,16 +53,16 @@ input CreateTodoInput {
   userId: Int!
 }
 
-input UpdateTodoInput {
-  text: String
-  done: Boolean
+input UpdateTodoTextInput {
+  id: Int!
+  text: String!
 }
 
-type Mutation {
-  createUser(input: UserInput!): User!
-  updateUser(id: Int!, input: UserInput!): User!
-  deleteUser(id: Int!): Int!
-  createTodo(input: CreateTodoInput!): Todo!
-  updateTodo(id: Int!, input: UpdateTodoInput!): Todo!
-  deleteTodo(id: Int!): Int!
+input UpdateTodoDoneInput {
+  id: Int!
+  done: Boolean!
+}
+
+input DeleteTodoInput {
+  id: Int!
 }

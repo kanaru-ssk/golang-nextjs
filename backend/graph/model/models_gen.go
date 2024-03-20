@@ -7,6 +7,18 @@ type CreateTodoInput struct {
 	UserID int    `json:"userId"`
 }
 
+type CreateUserInput struct {
+	Name string `json:"name"`
+}
+
+type DeleteTodoInput struct {
+	ID int `json:"id"`
+}
+
+type DeleteUserInput struct {
+	ID int `json:"id"`
+}
+
 type Mutation struct {
 }
 
@@ -21,9 +33,23 @@ type Todo struct {
 	User   *User   `json:"user,omitempty"`
 }
 
-type UpdateTodoInput struct {
-	Text *string `json:"text,omitempty"`
-	Done *bool   `json:"done,omitempty"`
+type TodosInput struct {
+	UserID int `json:"userId"`
+}
+
+type UpdateTodoDoneInput struct {
+	ID   int  `json:"id"`
+	Done bool `json:"done"`
+}
+
+type UpdateTodoTextInput struct {
+	ID   int    `json:"id"`
+	Text string `json:"text"`
+}
+
+type UpdateUserNameInput struct {
+	ID   int    `json:"id"`
+	Name string `json:"name"`
 }
 
 type User struct {
@@ -32,5 +58,5 @@ type User struct {
 }
 
 type UserInput struct {
-	Name string `json:"name"`
+	ID int `json:"id"`
 }

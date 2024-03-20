@@ -14,7 +14,7 @@ export async function TodosProvider({ userId, children }: Props) {
   const { data } = await getClient().query({
     query,
     variables: {
-      input: userId,
+      input: {userId},
     },
   });
 
@@ -26,7 +26,7 @@ export async function TodosProvider({ userId, children }: Props) {
 }
 
 const query = gql(`
-  query findTodos($input: Int!) {
+  query findTodos($input: TodosInput!) {
     todos(input: $input) {
       id
       text

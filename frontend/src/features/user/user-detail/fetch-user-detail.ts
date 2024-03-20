@@ -8,7 +8,7 @@ export async function fetchUserDetail(userId: number) {
   const { data, error } = await getClient().query({
     query,
     variables: {
-      input: userId,
+      input: {id: userId},
     },
   });
   if (!data || error) return notFound();
@@ -17,7 +17,7 @@ export async function fetchUserDetail(userId: number) {
 }
 
 const query = gql(`
-  query findUser($input: Int!) {
+  query findUser($input: UserInput!) {
     user(input: $input) {
       id
       name

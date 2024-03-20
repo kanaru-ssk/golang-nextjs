@@ -21,14 +21,27 @@ export type CreateTodoInput = {
   userId: Scalars['Int']['input'];
 };
 
+export type CreateUserInput = {
+  name: Scalars['String']['input'];
+};
+
+export type DeleteTodoInput = {
+  id: Scalars['Int']['input'];
+};
+
+export type DeleteUserInput = {
+  id: Scalars['Int']['input'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   createTodo: Todo;
   createUser: User;
   deleteTodo: Scalars['Int']['output'];
   deleteUser: Scalars['Int']['output'];
-  updateTodo: Todo;
-  updateUser: User;
+  updateTodoDone: Todo;
+  updateTodoText: Todo;
+  updateUserName: User;
 };
 
 
@@ -38,29 +51,32 @@ export type MutationCreateTodoArgs = {
 
 
 export type MutationCreateUserArgs = {
-  input: UserInput;
+  input: CreateUserInput;
 };
 
 
 export type MutationDeleteTodoArgs = {
-  id: Scalars['Int']['input'];
+  input: DeleteTodoInput;
 };
 
 
 export type MutationDeleteUserArgs = {
-  id: Scalars['Int']['input'];
+  input: DeleteUserInput;
 };
 
 
-export type MutationUpdateTodoArgs = {
-  id: Scalars['Int']['input'];
-  input: UpdateTodoInput;
+export type MutationUpdateTodoDoneArgs = {
+  input: UpdateTodoDoneInput;
 };
 
 
-export type MutationUpdateUserArgs = {
-  id: Scalars['Int']['input'];
-  input: UserInput;
+export type MutationUpdateTodoTextArgs = {
+  input: UpdateTodoTextInput;
+};
+
+
+export type MutationUpdateUserNameArgs = {
+  input: UpdateUserNameInput;
 };
 
 export type Query = {
@@ -72,12 +88,12 @@ export type Query = {
 
 
 export type QueryTodosArgs = {
-  input: Scalars['Int']['input'];
+  input: TodosInput;
 };
 
 
 export type QueryUserArgs = {
-  input: Scalars['Int']['input'];
+  input: UserInput;
 };
 
 export type Todo = {
@@ -89,9 +105,23 @@ export type Todo = {
   userId?: Maybe<Scalars['Int']['output']>;
 };
 
-export type UpdateTodoInput = {
-  done?: InputMaybe<Scalars['Boolean']['input']>;
-  text?: InputMaybe<Scalars['String']['input']>;
+export type TodosInput = {
+  userId: Scalars['Int']['input'];
+};
+
+export type UpdateTodoDoneInput = {
+  done: Scalars['Boolean']['input'];
+  id: Scalars['Int']['input'];
+};
+
+export type UpdateTodoTextInput = {
+  id: Scalars['Int']['input'];
+  text: Scalars['String']['input'];
+};
+
+export type UpdateUserNameInput = {
+  id: Scalars['Int']['input'];
+  name: Scalars['String']['input'];
 };
 
 export type User = {
@@ -101,7 +131,7 @@ export type User = {
 };
 
 export type UserInput = {
-  name: Scalars['String']['input'];
+  id: Scalars['Int']['input'];
 };
 
 export type CreateTodoMutationVariables = Exact<{
@@ -112,21 +142,21 @@ export type CreateTodoMutationVariables = Exact<{
 export type CreateTodoMutation = { __typename?: 'Mutation', createTodo: { __typename?: 'Todo', id: number, text?: string | null, done?: boolean | null } };
 
 export type FindTodosQueryVariables = Exact<{
-  input: Scalars['Int']['input'];
+  input: TodosInput;
 }>;
 
 
 export type FindTodosQuery = { __typename?: 'Query', todos: Array<{ __typename?: 'Todo', id: number, text?: string | null, done?: boolean | null }> };
 
 export type CreateUserMutationVariables = Exact<{
-  input: UserInput;
+  input: CreateUserInput;
 }>;
 
 
 export type CreateUserMutation = { __typename?: 'Mutation', createUser: { __typename?: 'User', id: number, name?: string | null } };
 
 export type FindUserQueryVariables = Exact<{
-  input: Scalars['Int']['input'];
+  input: UserInput;
 }>;
 
 
@@ -139,7 +169,7 @@ export type FindUsersQuery = { __typename?: 'Query', users: Array<{ __typename?:
 
 
 export const CreateTodoDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"createTodo"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreateTodoInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createTodo"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"done"}}]}}]}}]} as unknown as DocumentNode<CreateTodoMutation, CreateTodoMutationVariables>;
-export const FindTodosDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"findTodos"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"todos"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"done"}}]}}]}}]} as unknown as DocumentNode<FindTodosQuery, FindTodosQueryVariables>;
-export const CreateUserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"createUser"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UserInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createUser"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]} as unknown as DocumentNode<CreateUserMutation, CreateUserMutationVariables>;
-export const FindUserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"findUser"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"user"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]} as unknown as DocumentNode<FindUserQuery, FindUserQueryVariables>;
+export const FindTodosDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"findTodos"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"TodosInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"todos"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"done"}}]}}]}}]} as unknown as DocumentNode<FindTodosQuery, FindTodosQueryVariables>;
+export const CreateUserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"createUser"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreateUserInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createUser"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]} as unknown as DocumentNode<CreateUserMutation, CreateUserMutationVariables>;
+export const FindUserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"findUser"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UserInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"user"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]} as unknown as DocumentNode<FindUserQuery, FindUserQueryVariables>;
 export const FindUsersDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"findUsers"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"users"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]} as unknown as DocumentNode<FindUsersQuery, FindUsersQueryVariables>;
