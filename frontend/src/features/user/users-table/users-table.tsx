@@ -1,5 +1,6 @@
 "use client";
 
+import { Link } from "@/components/elements";
 import { useContext, type ReactNode } from "react";
 import { UsersContext } from "../users-context/users-context";
 
@@ -8,17 +9,12 @@ export function UsersTable() {
 
   return (
     <table>
-      <thead>
-        <tr>
-          <Th>id</Th>
-          <Th>name</Th>
-        </tr>
-      </thead>
       <tbody>
         {users.map((user) => (
           <tr key={user.id}>
-            <Td>{user.id}</Td>
-            <Td>{user.name}</Td>
+            <Td>
+              <Link href={`/${user.id}`}>{user.name}</Link>
+            </Td>
           </tr>
         ))}
       </tbody>
@@ -26,21 +22,13 @@ export function UsersTable() {
   );
 }
 
-type ThTdProps = {
+type TdProps = {
   children: ReactNode;
 };
 
-function Th({ children }: ThTdProps) {
+function Td({ children }: TdProps) {
   return (
-    <th className="min-w-48 border-2 border-neutral-400 px-4 py-2 text-center">
-      {children}
-    </th>
-  );
-}
-
-function Td({ children }: ThTdProps) {
-  return (
-    <td className="min-w-40 border-2 border-neutral-400 px-4 py-2 text-center">
+    <td className="min-w-56 border-y border-neutral-400 px-4 py-3">
       {children}
     </td>
   );
