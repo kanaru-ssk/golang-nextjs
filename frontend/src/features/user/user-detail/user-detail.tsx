@@ -1,18 +1,34 @@
-import { fetchUserDetail } from "./fetch-user-detail";
+"use client";
+
+import { gql } from "@/__generated__";
+import { useQuery } from "@apollo/client";
 
 type Props = {
   userId: number;
 };
 
-export async function UserDetail({ userId }: Props) {
-  const { user } = await fetchUserDetail(userId);
+export function UserDetail({ userId }: Props) {
+  const { loading, error, data } = useQuery(query, {
+    variables: { input: { id: userId } },
+  });
+
+  if (loading || !data || error) return null;
 
   return (
     <dl>
       <dt>userId</dt>
-      <dd>{user.id}</dd>
+      <dd>{data.user.id}</dd>
       <dt>userName</dt>
-      <dd>{user.name}</dd>
+      <dd>{data.user.name}</dd>
     </dl>
   );
 }
+
+const query = gql(`
+  query findUser($input: UserInput!) {
+    user(input: $input) {
+      id
+      name
+    }
+  }
+`);

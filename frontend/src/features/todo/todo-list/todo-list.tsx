@@ -1,15 +1,17 @@
 "use client";
 
-import { useContext } from "react";
-import { TodosContext } from "../todos-context/todos-context";
+import { gql } from "@/__generated__";
+import { useQuery } from "@apollo/client";
 import { TodoItem } from "./todo-item";
 
 export function TodoList() {
-  const { todos } = useContext(TodosContext);
+  const { loading, error, data } = useQuery(query);
+
+  if (loading || !data || error) return null;
 
   return (
     <ul>
-      {todos.map((todo) => (
+      {data.todos.map((todo) => (
         <li key={todo.id}>
           <TodoItem todo={todo} />
         </li>
@@ -17,3 +19,13 @@ export function TodoList() {
     </ul>
   );
 }
+
+const query = gql(`
+  query findTodos($input: TodosInput!) {
+    todos(input: $input) {
+      id
+      text
+      done
+    }
+  }
+`);

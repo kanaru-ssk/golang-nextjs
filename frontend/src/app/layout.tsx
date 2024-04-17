@@ -1,7 +1,7 @@
+import { ApolloProvider } from "@/libs/apollo-provider";
 import "@/styles/globals.css";
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
-import { UsersProvider } from "@/features/user";
 
 export const metadata: Metadata = {
   title: "golang-nextjs",
@@ -16,7 +16,7 @@ export default function RootLayout({ children }: Props) {
   return (
     <html lang="en">
       <body>
-        <UsersProvider>{children}</UsersProvider>
+        <ApolloProvider>{children}</ApolloProvider>
       </body>
     </html>
   );

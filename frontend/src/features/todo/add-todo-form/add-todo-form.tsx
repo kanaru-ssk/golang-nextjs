@@ -8,12 +8,23 @@ type Props = {
 };
 
 export function AddTodoForm({ userId }: Props) {
-  const { errors, dispatch } = useAddTodoForm();
+  const { text, errors, onBlurName, onChangeName, onSubmit } = useAddTodoForm({
+    userId,
+  });
 
   return (
-    <form action={dispatch} className="space-y-4">
-      <FieldWrapper label="new todo" errors={errors?.text}>
-        <InputField name="text" type="text" required />
+    <form onSubmit={onSubmit} className="space-y-4">
+      <FieldWrapper label="new todo" errors={errors}>
+        <InputField
+          name="name"
+          type="text"
+          required
+          placeholder="user name"
+          value={text}
+          hasError={errors.length > 0}
+          onBlur={onBlurName}
+          onChange={onChangeName}
+        />
       </FieldWrapper>
       <input name="userId" type="hidden" value={userId} />
       <SubmitButton>add</SubmitButton>

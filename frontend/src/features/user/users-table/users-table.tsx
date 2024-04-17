@@ -1,16 +1,21 @@
 "use client";
 
+import { gql } from "@/__generated__";
 import { Link } from "@/components/elements";
-import { useContext, type ReactNode } from "react";
-import { UsersContext } from "../users-context/users-context";
+import { useQuery } from "@apollo/client";
+import type { ReactNode } from "react";
+
+export const dynamic = "force-dynamic";
 
 export function UsersTable() {
-  const { users } = useContext(UsersContext);
+  const { loading, error, data } = useQuery(query);
+
+  if (loading || !data || error) return null;
 
   return (
     <table>
       <tbody>
-        {users.map((user) => (
+        {data.users.map((user) => (
           <tr key={user.id}>
             <Td>
               <Link href={`/${user.id}`}>{user.name}</Link>
@@ -33,3 +38,12 @@ function Td({ children }: TdProps) {
     </td>
   );
 }
+
+const query = gql(`
+  query findUsers {
+    users {
+      id
+      name
+    }
+  }
+`);

@@ -1,24 +1,62 @@
 "use client";
 
-import { useContext, useEffect } from "react";
-import { useFormState } from "react-dom";
-import { UsersContext } from "../users-context/users-context";
-import { addUserAction } from "./add-user-action";
+import { gql } from "@/__generated__";
+import { useMutation } from "@apollo/client";
+import { ChangeEvent, FocusEvent, FormEvent, useState } from "react";
+import { z } from "zod";
+
+const FormSchema = z.object({
+  name: z.string().trim().min(1).max(255),
+});
 
 export function useAddUserForm() {
-  const [state, dispatch] = useFormState(addUserAction, {});
-  const { users, setUsers } = useContext(UsersContext);
-  useEffect(() => {
-    if (
-      state.result?.user &&
-      !users.some((user) => user.id === state.result?.user?.id)
-    ) {
-      setUsers([...users, state.result.user]);
+  const [name, setName] = useState("");
+  const [errors, setErrors] = useState<string[]>([]);
+  const [addUserAction, { data }] = useMutation(mutation);
+
+  function onChangeName(e: ChangeEvent<HTMLInputElement>) {
+    setName(e.target.value);
+  }
+
+  function onBlurName(e: FocusEvent<HTMLInputElement>) {
+    setErrors(validateName(e.target.value));
+  }
+
+  async function onSubmit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const errors = validateName(name);
+    setErrors(errors);
+    if (errors.length > 0) return;
+
+    const data = await addUserAction({ variables: { input: { name } } });
+    if (data.errors) {
+      setErrors(data.errors.map((error) => error.message));
     }
-  }, [state, users, setUsers]);
+  }
 
   return {
-    errors: state.errors,
-    dispatch,
+    name,
+    errors,
+    onChangeName,
+    onBlurName,
+    onSubmit,
   };
 }
+
+function validateName(name: string) {
+  const validatedFields = FormSchema.safeParse({ name });
+  if (validatedFields.success) {
+    return [];
+  } else {
+    return validatedFields.error.flatten().fieldErrors.name || [];
+  }
+}
+
+const mutation = gql(`
+  mutation createUser($input: CreateUserInput!) {
+    createUser(input: $input) {
+      id
+      name
+    }
+  }
+`);
