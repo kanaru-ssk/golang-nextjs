@@ -18,7 +18,7 @@ services:
       - BACKEND_PORT
       - DB_PORT
   db:
-    image: postgres:16-alpine
+    image: postgres:alpine
     ports:
       - 5432:${DB_PORT}
     environment:
