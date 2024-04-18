@@ -5,8 +5,6 @@ import { Link } from "@/components/elements";
 import { useQuery } from "@apollo/client";
 import type { ReactNode } from "react";
 
-export const dynamic = "force-dynamic";
-
 export function UsersTable() {
   const { loading, error, data } = useQuery(query);
 

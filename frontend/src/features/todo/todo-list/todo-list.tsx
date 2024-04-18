@@ -4,8 +4,14 @@ import { gql } from "@/__generated__";
 import { useQuery } from "@apollo/client";
 import { TodoItem } from "./todo-item";
 
-export function TodoList() {
-  const { loading, error, data } = useQuery(query);
+type Props = {
+  userId: number;
+};
+
+export function TodoList({ userId }: Props) {
+  const { loading, error, data } = useQuery(query, {
+    variables: { input: { userId } },
+  });
 
   if (loading || !data || error) return null;
 
