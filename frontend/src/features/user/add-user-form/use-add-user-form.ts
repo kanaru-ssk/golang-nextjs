@@ -31,6 +31,8 @@ export function useAddUserForm() {
     const data = await addUserAction({ variables: { input: { name } } });
     if (data.errors) {
       setErrors(data.errors.map((error) => error.message));
+    } else {
+      setName("");
     }
   }
 

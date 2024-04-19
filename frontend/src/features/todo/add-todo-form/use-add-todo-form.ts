@@ -37,6 +37,8 @@ export function useAddTodoForm({ userId }: Props) {
     });
     if (data.errors) {
       setErrors(data.errors.map((error) => error.message));
+    } else {
+      setText("");
     }
   }
 
