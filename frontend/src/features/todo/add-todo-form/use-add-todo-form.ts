@@ -16,8 +16,9 @@ type Props = {
 export function useAddTodoForm({ userId }: Props) {
   const [text, setText] = useState("");
   const [errors, setErrors] = useState<string[]>([]);
-  const [addTodoAction, { data }] = useMutation(mutation);
-
+  const [addTodoAction] = useMutation(mutation, {
+    refetchQueries: ["findTodos"],
+  });
   function onChangeName(e: ChangeEvent<HTMLInputElement>) {
     setText(e.target.value);
   }

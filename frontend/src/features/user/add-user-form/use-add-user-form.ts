@@ -12,7 +12,9 @@ const FormSchema = z.object({
 export function useAddUserForm() {
   const [name, setName] = useState("");
   const [errors, setErrors] = useState<string[]>([]);
-  const [addUserAction, { data }] = useMutation(mutation);
+  const [addUserAction] = useMutation(mutation, {
+    refetchQueries: ["findUsers"],
+  });
 
   function onChangeName(e: ChangeEvent<HTMLInputElement>) {
     setName(e.target.value);
