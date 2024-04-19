@@ -1,3 +1,4 @@
 export * from "./add-user-form/add-user-form";
-export * from "./user-detail/user-detail";
-export * from "./users-table/users-table";
+export * from "./user-card/user-card";
+export * from "./user-info/user-info";
+export * from "./user-list/user-list";

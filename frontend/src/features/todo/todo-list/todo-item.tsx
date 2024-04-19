@@ -1,13 +1,15 @@
-import { Todo } from "@/__generated__/graphql";
+import { Checkbox } from "@/components/form";
 
 type Props = {
-  todo: Todo;
+  text: string;
+  done: boolean;
 };
 
-export function TodoItem({ todo }: Props) {
+export function TodoItem({ text, done }: Props) {
   return (
-    <div>
-      <span>{todo.text}</span>
+    <div className="space-x-4">
+      <Checkbox checked={done} />
+      <span>{text}</span>
     </div>
   );
 }

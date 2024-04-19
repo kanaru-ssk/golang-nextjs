@@ -4,5 +4,10 @@ import type { ComponentPropsWithoutRef } from "react";
 type Props = LinkProps & ComponentPropsWithoutRef<"a">;
 
 export function Link({ className, ...rest }: Props) {
-  return <NextLink className={`${className || ""} text-blue-600`} {...rest} />;
+  return (
+    <NextLink
+      className={`${className || ""} text-cyan-700 hover:opacity-80`}
+      {...rest}
+    />
+  );
 }

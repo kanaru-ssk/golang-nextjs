@@ -1,3 +1,4 @@
+import { Header } from "@/components/elements/header";
 import { ApolloProvider } from "@/libs/apollo-provider";
 import "@/styles/globals.css";
 import type { Metadata } from "next";
@@ -16,6 +17,7 @@ export default function RootLayout({ children }: Props) {
   return (
     <html lang="en">
       <body>
+        <Header />
         <ApolloProvider>{children}</ApolloProvider>
       </body>
     </html>

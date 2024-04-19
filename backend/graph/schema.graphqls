@@ -16,22 +16,22 @@ type Mutation {
 
 type User {
   id: Int!
-  name: String
+  name: String!
 }
 
 type Todo {
   id: Int!
-  text: String
-  done: Boolean
-  userId: Int
-  user: User
+  text: String!
+  done: Boolean!
+  userId: Int!
+  user: User!
 }
 
 input UserInput {
   id: Int!
 }
 
-input TodosInput{
+input TodosInput {
   userId: Int!
 }
 

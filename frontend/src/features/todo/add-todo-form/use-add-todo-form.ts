@@ -16,6 +16,7 @@ type Props = {
 export function useAddTodoForm({ userId }: Props) {
   const [text, setText] = useState("");
   const [errors, setErrors] = useState<string[]>([]);
+  const [pending, setPending] = useState(false);
   const [addTodoAction] = useMutation(mutation, {
     refetchQueries: ["findTodos"],
   });
@@ -33,9 +34,11 @@ export function useAddTodoForm({ userId }: Props) {
     setErrors(errors);
     if (errors.length > 0) return;
 
+    setPending(true);
     const data = await addTodoAction({
       variables: { input: { text, userId } },
     });
+    setPending(false);
     if (data.errors) {
       setErrors(data.errors.map((error) => error.message));
     } else {
@@ -46,6 +49,7 @@ export function useAddTodoForm({ userId }: Props) {
   return {
     text,
     errors,
+    pending,
     onChangeName,
     onBlurName,
     onSubmit,

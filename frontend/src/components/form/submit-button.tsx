@@ -1,21 +1,13 @@
 "use client";
 
 import { Button, Spinner, type ButtonProps } from "@/components/elements";
-import { useFormStatus } from "react-dom";
 
-type Props = Omit<ButtonProps, "type">;
+type Props = Omit<ButtonProps, "type"> & { pending: boolean };
 
-export function SubmitButton({ children, ...rest }: Props) {
-  const { pending } = useFormStatus();
-
+export function SubmitButton({ pending, children, ...rest }: Props) {
   return (
-    <Button
-      type="submit"
-      disabled={pending}
-      className={`${pending ? "text-[0]" : ""}`}
-      {...rest}
-    >
-      {pending ? <Spinner /> : children}
+    <Button type="submit" disabled={pending} {...rest}>
+      {pending ? <Spinner size="sm" /> : children}
     </Button>
   );
 }

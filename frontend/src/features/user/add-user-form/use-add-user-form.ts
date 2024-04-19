@@ -12,6 +12,7 @@ const FormSchema = z.object({
 export function useAddUserForm() {
   const [name, setName] = useState("");
   const [errors, setErrors] = useState<string[]>([]);
+  const [pending, setPending] = useState(false);
   const [addUserAction] = useMutation(mutation, {
     refetchQueries: ["findUsers"],
   });
@@ -26,11 +27,14 @@ export function useAddUserForm() {
 
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
+
     const errors = validateName(name);
     setErrors(errors);
     if (errors.length > 0) return;
 
+    setPending(true);
     const data = await addUserAction({ variables: { input: { name } } });
+    setPending(false);
     if (data.errors) {
       setErrors(data.errors.map((error) => error.message));
     } else {
@@ -41,6 +45,7 @@ export function useAddUserForm() {
   return {
     name,
     errors,
+    pending,
     onChangeName,
     onBlurName,
     onSubmit,

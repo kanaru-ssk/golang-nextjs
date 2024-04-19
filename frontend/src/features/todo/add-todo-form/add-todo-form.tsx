@@ -1,6 +1,6 @@
 "use client";
 
-import { FieldWrapper, InputField, SubmitButton } from "@/components/form";
+import { SubmitButton, TextInput } from "@/components/form";
 import { useAddTodoForm } from "./use-add-todo-form";
 
 type Props = {
@@ -8,26 +8,33 @@ type Props = {
 };
 
 export function AddTodoForm({ userId }: Props) {
-  const { text, errors, onBlurName, onChangeName, onSubmit } = useAddTodoForm({
-    userId,
-  });
+  const { text, errors, pending, onBlurName, onChangeName, onSubmit } =
+    useAddTodoForm({
+      userId,
+    });
 
   return (
-    <form onSubmit={onSubmit} className="space-y-4">
-      <FieldWrapper label="new todo" errors={errors}>
-        <InputField
-          name="name"
-          type="text"
-          required
-          placeholder="user name"
-          value={text}
-          hasError={errors.length > 0}
-          onBlur={onBlurName}
-          onChange={onChangeName}
-        />
-      </FieldWrapper>
+    <form onSubmit={onSubmit} className="flex max-w-sm items-start space-x-5">
+      <TextInput
+        name="name"
+        type="text"
+        required
+        placeholder="user name"
+        value={text}
+        hasError={errors.length > 0}
+        onBlur={onBlurName}
+        onChange={onChangeName}
+        className="w-full"
+        helperText={
+          <div role="alert" aria-label="error">
+            {errors.map((error) => (
+              <p key={error}>{error}</p>
+            ))}
+          </div>
+        }
+      />
       <input name="userId" type="hidden" value={userId} />
-      <SubmitButton>add</SubmitButton>
+      <SubmitButton pending={pending}>add</SubmitButton>
     </form>
   );
 }

@@ -18,8 +18,11 @@ export function TodoList({ userId }: Props) {
   return (
     <ul>
       {data.todos.map((todo) => (
-        <li key={todo.id}>
-          <TodoItem todo={todo} />
+        <li
+          key={todo.id}
+          className="border-b border-neutral-200 px-5 py-2 first:border-t"
+        >
+          <TodoItem {...todo} />
         </li>
       ))}
     </ul>

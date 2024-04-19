@@ -98,11 +98,11 @@ export type QueryUserArgs = {
 
 export type Todo = {
   __typename?: 'Todo';
-  done?: Maybe<Scalars['Boolean']['output']>;
+  done: Scalars['Boolean']['output'];
   id: Scalars['Int']['output'];
-  text?: Maybe<Scalars['String']['output']>;
-  user?: Maybe<User>;
-  userId?: Maybe<Scalars['Int']['output']>;
+  text: Scalars['String']['output'];
+  user: User;
+  userId: Scalars['Int']['output'];
 };
 
 export type TodosInput = {
@@ -127,7 +127,7 @@ export type UpdateUserNameInput = {
 export type User = {
   __typename?: 'User';
   id: Scalars['Int']['output'];
-  name?: Maybe<Scalars['String']['output']>;
+  name: Scalars['String']['output'];
 };
 
 export type UserInput = {
@@ -139,33 +139,33 @@ export type CreateTodoMutationVariables = Exact<{
 }>;
 
 
-export type CreateTodoMutation = { __typename?: 'Mutation', createTodo: { __typename?: 'Todo', id: number, text?: string | null, done?: boolean | null } };
+export type CreateTodoMutation = { __typename?: 'Mutation', createTodo: { __typename?: 'Todo', id: number, text: string, done: boolean } };
 
 export type FindTodosQueryVariables = Exact<{
   input: TodosInput;
 }>;
 
 
-export type FindTodosQuery = { __typename?: 'Query', todos: Array<{ __typename?: 'Todo', id: number, text?: string | null, done?: boolean | null }> };
+export type FindTodosQuery = { __typename?: 'Query', todos: Array<{ __typename?: 'Todo', id: number, text: string, done: boolean }> };
 
 export type CreateUserMutationVariables = Exact<{
   input: CreateUserInput;
 }>;
 
 
-export type CreateUserMutation = { __typename?: 'Mutation', createUser: { __typename?: 'User', id: number, name?: string | null } };
+export type CreateUserMutation = { __typename?: 'Mutation', createUser: { __typename?: 'User', id: number, name: string } };
 
 export type FindUserQueryVariables = Exact<{
   input: UserInput;
 }>;
 
 
-export type FindUserQuery = { __typename?: 'Query', user: { __typename?: 'User', id: number, name?: string | null } };
+export type FindUserQuery = { __typename?: 'Query', user: { __typename?: 'User', id: number, name: string } };
 
 export type FindUsersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FindUsersQuery = { __typename?: 'Query', users: Array<{ __typename?: 'User', id: number, name?: string | null }> };
+export type FindUsersQuery = { __typename?: 'Query', users: Array<{ __typename?: 'User', id: number, name: string }> };
 
 
 export const CreateTodoDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"createTodo"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreateTodoInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createTodo"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"text"}},{"kind":"Field","name":{"kind":"Name","value":"done"}}]}}]}}]} as unknown as DocumentNode<CreateTodoMutation, CreateTodoMutationVariables>;
